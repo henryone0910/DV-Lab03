@@ -26,7 +26,14 @@ df[df.columns[:-1]] = df[df.columns[:-1]].astype('float')
 
 ############################ Complete the following 4 functions ###############
 def plot1():
-    pass
+    bins = np.arange(0, 8, 0.5)
+    plt.hist(df['Global_active_power'], bins=bins, color='red', edgecolor='black')
+
+    # Add labels and title
+    plt.xlabel('Global Active Power (kilowatts)')
+    plt.ylabel('Frequency')
+    plt.title('Global Active Power')
+    plt.savefig('plot1.png')
 
 def plot2():
     fig = plt.figure()
