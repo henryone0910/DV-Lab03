@@ -61,7 +61,7 @@ print("The names of the 3-cylinder cars are:")
 for name in car_names:
     print(name)
 
-# 3 What is the range, mean, and standard deviation of each attribute? Pay attention to potential missing values.
+# 3. What is the range, mean, and standard deviation of each attribute? Pay attention to potential missing values.
 
 stats = data.describe()
 
@@ -113,7 +113,7 @@ plt.show()
 ''' Decrease in the number of cylinders in cars in the 1970s. One of the primary reasons was the oil crisis of 1973, which caused a significant increase in oil
 prices (300%) and led to a greater focus on fuel efficiency.'''
 
-# 7
+# 7. Show 2 more scatterplots that are interesting do you. Discuss what you see. 
 plt.figure()
 plt.scatter(data.horsepower, data.mpg)
 plt.xlabel('Horse Power')
@@ -133,4 +133,3 @@ plt.show()
 # 8
 # 9
 
-# main fuction
