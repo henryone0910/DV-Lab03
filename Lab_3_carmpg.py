@@ -86,8 +86,32 @@ plt.ylabel("Frequency")
 
 plt.show()
 
-# 5
-# 6
+''' 5. Plot a scatterplot of weight vs. MPG attributes. What do you conclude about the relationship
+between the attributes? What is the correlation coefficient between the 2 attributes?'''
+
+plt.figure()
+plt.scatter(data.weight, data.mpg)
+plt.xlabel('Weight')
+plt.ylabel('Mile per gallon')
+
+plt.show()
+
+print("Correlation coefficient between weight and MPG:", data.weight.corr(data.mpg))
+
+''' 6. Plot a scatterplot of year vs. cylinders attributes. Add a small random noise to the values to make
+the scatterplot look nicer. What can you conclude? Do some internet search about the history of car
+industry during 70’s that might explain the results.(Hint: data.mpg + np.random.random(len(data.mpg))
+will add small random noise)'''
+
+plt.figure()
+plt.scatter(data.model, data.cylinders + np.random.random(len(data.cylinders)))
+plt.xlabel('Model')
+plt.ylabel('Cylinders')
+
+plt.show()
+
+print("Correlation coefficient between model and cylinders:", data.model.corr(data.cylinders))
+
 # 7
 plt.figure()
 plt.scatter(data.horsepower, data.mpg)
