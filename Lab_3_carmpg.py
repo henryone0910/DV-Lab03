@@ -110,7 +110,8 @@ plt.ylabel('Cylinders')
 
 plt.show()
 
-print("Correlation coefficient between model and cylinders:", data.model.corr(data.cylinders))
+''' Decrease in the number of cylinders in cars in the 1970s. One of the primary reasons was the oil crisis of 1973, which caused a significant increase in oil
+prices (300%) and led to a greater focus on fuel efficiency.'''
 
 # 7
 plt.figure()
