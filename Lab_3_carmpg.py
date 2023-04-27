@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
 """
 Created on Tue Jan 27 21:53:34 2015
-
 @author: nymph
 """
 
@@ -11,7 +9,8 @@ import pandas as pd
 from pandas import DataFrame, Series
 import numpy as np
 import matplotlib.pyplot as plt
-
+import matplotlib
+matplotlib.use('tkagg')
 ''' read_csv()
 The read_csv() function in pandas package parse an csv data as a DataFrame data structure. What's the endpoint of the data?
 The data structure is able to deal with complex table data whose attributes are of all data types. 
@@ -79,24 +78,36 @@ for col in stats.columns:
 Write 2-3 sentences summarizing some interesting aspects of the data by looking at the histograms. """
 
 data.hist(bins=20, figsize=(10,10))
-
 plt.suptitle("Histograms of Auto-MPG Dataset Attributes", fontsize=16)
-plt.xlabel("Value")
-plt.ylabel("Frequency")
 
-plt.show()
+
+#plt.show()
 
 ''' 5. Plot a scatterplot of weight vs. MPG attributes. What do you conclude about the relationship
 between the attributes? What is the correlation coefficient between the 2 attributes?'''
 
+df = data.replace(np.inf, np.nan).replace(-np.inf, np.nan).dropna()
+
+x = df.weight
+y = df.mpg
 plt.figure()
-plt.scatter(data.weight, data.mpg)
-plt.xlabel('Weight')
-plt.ylabel('Mile per gallon')
+plt.scatter(x, y)
 
-plt.show()
+z = np.polyfit(x, y, 1)
+p = np.poly1d(z)
 
-print("Correlation coefficient between weight and MPG:", data.weight.corr(data.mpg))
+plt.plot(x,p(x),"r")
+
+plt.title("Relation between weight and MPG", fontsize = 15)
+plt.xticks(fontsize = 12)
+plt.yticks(fontsize = 12)
+plt.xlabel('Weight', fontsize = 15)
+plt.ylabel('Mile per gallon', fontsize = 15)
+
+
+#plt.show()
+
+# print("Correlation coefficient between weight and MPG:", data.weight.corr(data.mpg))
 
 ''' 6. Plot a scatterplot of year vs. cylinders attributes. Add a small random noise to the values to make
 the scatterplot look nicer. What can you conclude? Do some internet search about the history of car
@@ -104,32 +115,144 @@ industry during 70’s that might explain the results.(Hint: data.mpg + np.rando
 will add small random noise)'''
 
 plt.figure()
-plt.scatter(data.model, data.cylinders + np.random.random(len(data.cylinders)))
-plt.xlabel('Model')
-plt.ylabel('Cylinders')
 
-plt.show()
+plt.scatter(data.model, data.cylinders + np.random.random(len(data.cylinders)))
+
+plt.title("Cylinders through the years", fontsize = 15)
+plt.xticks(fontsize = 12)
+plt.yticks(fontsize = 12)
+plt.xlabel('Year', fontsize = 15)
+plt.ylabel('Cylinders', fontsize = 15)
+
+#plt.show()
 
 ''' Decrease in the number of cylinders in cars in the 1970s. One of the primary reasons was the oil crisis of 1973, which caused a significant increase in oil
 prices (300%) and led to a greater focus on fuel efficiency.'''
 
 # 7. Show 2 more scatterplots that are interesting do you. Discuss what you see. 
+
+
+x = df.horsepower
+y = df.mpg
 plt.figure()
-plt.scatter(data.horsepower, data.mpg)
-plt.xlabel('Horse Power')
-plt.ylabel('Mile per gallon')
+plt.scatter(x, y)
+
+z = np.polyfit(x, y, 1)
+p = np.poly1d(z)
+
+plt.plot(x,p(x),"r")
+
+plt.title("Relation between MPG and HorsePower", fontsize = 15)
+plt.xticks(fontsize = 12)
+plt.yticks(fontsize = 12)
+plt.xlabel('Horse Power', fontsize = 15)
+plt.ylabel('Mile per gallon', fontsize = 15)
+
+x = df.horsepower
+y = df.displacement
+plt.figure()
+
+plt.scatter(x, y)
+z = np.polyfit(x, y, 1)
+p = np.poly1d(z)
+
+plt.plot(x,p(x),"r")
+
+plt.title("Relation between MPG and HorsePower", fontsize = 15)
+plt.xticks(fontsize = 12)
+plt.yticks(fontsize = 12)
+plt.xlabel('Horse Power', fontsize = 15)
+plt.ylabel('Displacement', fontsize = 15)
+
+#plt.show()
+
+# 8 Plot a time series for all the companies that show how many new cars they introduces during
+# each year. Do you see some interesting trends?
+
+data_new = data.assign(
+    comp = lambda x: x.car_name.str.split().str[0]
+)
+data_new.model = pd.to_datetime(data_new.model, format = '%y').dt.year
+
+# check spelling
+
+data_new.comp.replace({'chevroelt': 'chevrolet',
+                   'maxda':'mazda',
+                   'mercedes':'mercedes-benz',
+                   'toyouta':'toyota',
+                   'vokswagen':'volkswagen',
+                    'vw':'volkswagen'
+                   }, inplace = True)
+# Convert to real company
+data_new.comp.replace({'chevrolet': 'General Motors',
+                    'dodge': 'General Motors',
+                    'buick': 'General Motors',
+                    'plymouth': 'General Motors',
+                    'pontiac': 'General Motors',
+                    'cadillac': 'General Motors',
+                    'oldsmobile': 'General Motors',
+                    'chevy': 'General Motors',
+                    'chrysler': 'General Motors',
+                    'mercury': 'Ford',
+                    'ford': 'Ford',
+                    'capri': 'Ford',
+                    'datsun': 'Nissan',     
+                    'nissan': 'Nissan',
+                    'citroen': 'Stellantis',
+                    'opel': 'Stellantis',
+                    'fiat': 'Stellantis',
+                    'peugeot': 'Stellantis',
+                    'audi': 'Volkswagen',
+                    'volkswagen': 'Volkswagen',
+                    'toyota': 'Toyota',
+                    'volvo': 'Volvo',
+                    'mazda': 'Mazda',
+                    'subaru': 'Subaru',
+                    'honda': 'Honda',
+                    'mercedes-benz': 'Daimler',
+                    'bmw': 'BMW',
+                    'saab': 'Saab',
+                    'hi': 'Huyndai',
+                    'renault': 'Renault',
+                    'amc': 'AMC',
+                    'triumph': 'British Leyland'
+                    }, inplace = True)
+
+seri = data_new.groupby(['comp', 'model']).size().reset_index().rename(columns = {0: 'num'})
+seri = seri.pivot(index = 'model', columns = 'comp', values = 'num')
+seri = seri.fillna(0)
+
+seri.plot(kind = 'line', figsize = (10, 6), title = 'Number of cars introduced by company during year',fontsize = 15, 
+          grid = True, colormap = 'tab20c', marker = 'o', markersize = 5, linewidth = 2)
+plt.xlabel('Year',fontsize = 15),
+plt.ylabel('Number of cars',fontsize = 15),
+plt.legend(loc = 'center left', bbox_to_anchor = (1, 0.5))
+
 
 plt.figure()
-plt.scatter(data.horsepower, data.acceleration)
-plt.xlabel('Horse Power')
-plt.ylabel('Acceleration')
+seri['British Leyland'].plot(kind = 'line', figsize = (10, 6),
+                     title = 'Number of cars introduced by British Layland during year',fontsize = 15,
+                     marker='o', markersize=5, linewidth=2, color = 'orange')
+plt.xlabel('Year',fontsize = 15)
+plt.ylabel('Number of cars',fontsize = 15)
 
-plt.figure()
-plt.scatter(data.horsepower, data.displacement)
-plt.xlabel('Horse Power')
-plt.ylabel('Displacement')
+#plt.show()
 
+# 9. Calculate the pairwise correlation, and draw the heatmap with Matplotlib. Do you see some interesting correlation?
+
+corr = data_new.iloc[:,0:8].corr()
+
+fig, ax = plt.subplots()
+plt.pcolor(corr, cmap = 'RdYlGn', linewidths = 0.2)
+plt.xticks(np.arange(0.5, len(corr.columns), 1), corr.columns)
+plt.yticks(np.arange(0.5, len(corr.columns), 1), corr.columns)
+plt.xticks(rotation = 45);
+plt.colorbar()
+for i in range(len(corr.columns)):
+    for j in range(len(corr.columns)):
+        ax.text(i + 0.5, j + 0.5, '%.2f' % corr.iloc[i,j], ha = 'center', va = 'center')
+plt.title('Correlation between features')
 plt.show()
-# 8
-# 9
+
+
 
