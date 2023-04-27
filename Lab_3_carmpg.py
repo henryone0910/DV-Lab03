@@ -78,10 +78,10 @@ for col in stats.columns:
 Write 2-3 sentences summarizing some interesting aspects of the data by looking at the histograms. """
 
 data.hist(bins=20, figsize=(10,10))
+
 plt.suptitle("Histograms of Auto-MPG Dataset Attributes", fontsize=16)
-
-
-#plt.show()
+plt.xlabel("Value")
+plt.ylabel("Frequency")
 
 ''' 5. Plot a scatterplot of weight vs. MPG attributes. What do you conclude about the relationship
 between the attributes? What is the correlation coefficient between the 2 attributes?'''
@@ -104,10 +104,7 @@ plt.yticks(fontsize = 12)
 plt.xlabel('Weight', fontsize = 15)
 plt.ylabel('Mile per gallon', fontsize = 15)
 
-
-#plt.show()
-
-# print("Correlation coefficient between weight and MPG:", data.weight.corr(data.mpg))
+print("Correlation coefficient between weight and MPG:", data.weight.corr(data.mpg))
 
 ''' 6. Plot a scatterplot of year vs. cylinders attributes. Add a small random noise to the values to make
 the scatterplot look nicer. What can you conclude? Do some internet search about the history of car
