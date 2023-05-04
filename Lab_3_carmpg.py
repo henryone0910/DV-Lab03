@@ -212,7 +212,7 @@ data_new.comp.replace({'chevrolet': 'General Motors',
                     'hi': 'Huyndai',
                     'renault': 'Renault',
                     'amc': 'AMC',
-                    'triumph': 'British Leyland'
+                    'triumph': 'Triumph'
                     }, inplace = True)
 
 seri = data_new.groupby(['comp', 'model']).size().reset_index().rename(columns = {0: 'num'})
@@ -227,7 +227,7 @@ plt.legend(loc = 'center left', bbox_to_anchor = (1, 0.5))
 
 
 plt.figure()
-seri['British Leyland'].plot(kind = 'line', figsize = (10, 6),
+seri['Triumph'].plot(kind = 'line', figsize = (10, 6),
                      title = 'Number of cars introduced by British Layland during year',fontsize = 15,
                      marker='o', markersize=5, linewidth=2, color = 'orange')
 plt.xlabel('Year',fontsize = 15)
